@@ -10,7 +10,12 @@ class ProductFilter(filters.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['price_min', 'price_max', 'label']
+        fields = {
+            'price': ['gte', 'lte'],
+            'tags__name': ['exact'],
+            'promotion_tags__name': ['exact'],
+            'labels__name': ['exact'],
+        }
 
 
 class ProductListAPIView(generics.ListAPIView):
