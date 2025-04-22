@@ -69,6 +69,15 @@ class ProductListAPIView(generics.ListAPIView):
             'results': serializer.data,
         })
 
+# 페이지네이션 없이 전체 반환
+class ProductListAllAPIView(generics.ListAPIView):
+    """GET /api/products/all/  →  필터 적용 후 전체 결과 반환 (무한 스크롤·엑셀 다운로드 등용)"""
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ProductFilter
+    pagination_class = None            # ← 반드시 None 지정
+
 # --- Lookup APIs for filter options (전체 조회) ---
 class TagListAPIView(generics.ListAPIView):
     """GET /api/tags/ -> 전체 516개 태그 반환 (페이징 비활성화)"""
